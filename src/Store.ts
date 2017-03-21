@@ -1,8 +1,8 @@
 import { createStore, combineReducers } from 'redux';
-import duckshogi from './duckshogi/module';
+import serval from './serval/module';
 
 export default createStore(
   combineReducers({
-    duckshogi: duckshogi
+    serval:serval
   })
 );

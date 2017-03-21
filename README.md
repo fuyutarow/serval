@@ -1,8 +1,10 @@
-# Blindfold
+# Serval
+
+Serval has good ears.
 
 ## Demo
 
-https://sktnkysh.github.io/blindfold/
+https://sktnkysh.github.io/serval/
 
 ## Requirement
 
