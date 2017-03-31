@@ -23992,7 +23992,7 @@ var Serval = (function (_super) {
     Serval.prototype.componentDidUpdate = function () {
         var audio_sugoi = __WEBPACK_IMPORTED_MODULE_1_react_dom__["findDOMNode"](this.refs.sugoi);
         var text = this.props.state.text;
-        if (this.props.state.text == "すごい") {
+        if (~this.props.state.text.indexOf("すご")) {
             console.log();
             setTimeout(function () { audio_sugoi.play(); }, 200);
         }

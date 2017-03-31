@@ -53,7 +53,7 @@ export class Serval extends React.Component<Props, {}> {
   componentDidUpdate() {
     const audio_sugoi = ReactDOM.findDOMNode(this.refs.sugoi) as HTMLAudioElement;
     const text  = this.props.state.text
-    if( ~this.props.state.text.indexOf("すごい") ){
+    if( ~this.props.state.text.indexOf("すご") ){
       console.log()
       setTimeout( () => { audio_sugoi.play();}, 200);
       }
