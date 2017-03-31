@@ -14,7 +14,6 @@ interface Props {
 
 export class Serval extends React.Component<Props, {}> {
   render() {
-
     return (
       <div>
         <p>{ this.props.state.text }</p>
@@ -38,7 +37,6 @@ export class Serval extends React.Component<Props, {}> {
       }
     }
 
-
     const speakbtn = ReactDOM.findDOMNode(this.refs.speakbtn) as HTMLInputElement;
     speakbtn.addEventListener('click', () => {
       const synthes = new SpeechSynthesisUtterance();
@@ -55,7 +53,7 @@ export class Serval extends React.Component<Props, {}> {
   componentDidUpdate() {
     const audio_sugoi = ReactDOM.findDOMNode(this.refs.sugoi) as HTMLAudioElement;
     const text  = this.props.state.text
-    if( this.props.state.text=="すごい" ){
+    if( ~this.props.state.text.indexOf("すごい") ){
       console.log()
       setTimeout( () => { audio_sugoi.play();}, 200);
       }
