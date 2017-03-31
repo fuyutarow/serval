@@ -23960,7 +23960,6 @@ var Serval = (function (_super) {
     }
     Serval.prototype.render = function () {
         return (__WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("div", null,
-            __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("button", { ref: "btn" }, this.props.state.phase),
             __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("p", null, this.props.state.text),
             __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("p", null,
                 __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("button", { ref: "speakbtn" }, "Speak"),
@@ -23969,22 +23968,15 @@ var Serval = (function (_super) {
     };
     Serval.prototype.componentDidMount = function () {
         var _this = this;
-        var btn = __WEBPACK_IMPORTED_MODULE_1_react_dom__["findDOMNode"](this.refs.btn);
-        speech.addEventListener('result', function (e) {
-            console.log(e.results);
-            var text = e.results[e.results.length - 1][0].transcript;
-            _this.props.actions.listen(text);
-        }, false);
         speech.start();
-        btn.addEventListener('click', function () {
-            if (_this.props.state.phase == "waiting") {
-                speech.start();
+        speech.onresult = function (event) {
+            var e = event;
+            var audio_sugoi = __WEBPACK_IMPORTED_MODULE_1_react_dom__["findDOMNode"](_this.refs.sugoi);
+            for (var i = e.resultIndex; i < e.results.length; ++i) {
+                console.log(e.results[i][0].transcript);
+                _this.props.actions.listen(e.results[i][0].transcript);
             }
-            if (_this.props.state.phase == "listening") {
-                speech.stop();
-            }
-            _this.props.actions.click();
-        }, false);
+        };
         var speakbtn = __WEBPACK_IMPORTED_MODULE_1_react_dom__["findDOMNode"](this.refs.speakbtn);
         speakbtn.addEventListener('click', function () {
             var synthes = new SpeechSynthesisUtterance();
@@ -24056,8 +24048,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
-__WEBPACK_IMPORTED_MODULE_1_react_dom__["render"](__WEBPACK_IMPORTED_MODULE_0_react__["createElement"](__WEBPACK_IMPORTED_MODULE_2_react_redux__["a" /* Provider */], { store: __WEBPACK_IMPORTED_MODULE_3__Store__["a" /* default */] },
-    __WEBPACK_IMPORTED_MODULE_0_react__["createElement"](__WEBPACK_IMPORTED_MODULE_4__serval_Root__["a" /* default */], null)), document.getElementById('app'));
+if (!('webkitSpeechRecognition' in window)) {
+    __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("div", null, "This is supported by only chrome version 25 or later.");
+}
+else {
+    __WEBPACK_IMPORTED_MODULE_1_react_dom__["render"](__WEBPACK_IMPORTED_MODULE_0_react__["createElement"](__WEBPACK_IMPORTED_MODULE_2_react_redux__["a" /* Provider */], { store: __WEBPACK_IMPORTED_MODULE_3__Store__["a" /* default */] },
+        __WEBPACK_IMPORTED_MODULE_0_react__["createElement"](__WEBPACK_IMPORTED_MODULE_4__serval_Root__["a" /* default */], null)), document.getElementById('app'));
+}
 
 
 /***/ })

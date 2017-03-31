@@ -2,6 +2,7 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { servalState, ActionDispatcher } from './module';
 import * as Immutable from 'immutable';
+
 const speech = new webkitSpeechRecognition();
 speech.lang = 'ja';
 speech.continuous = true;
@@ -16,7 +17,6 @@ export class Serval extends React.Component<Props, {}> {
 
     return (
       <div>
-        <button ref="btn">{ this.props.state.phase }</button>
         <p>{ this.props.state.text }</p>
         <p>
           <button ref="speakbtn">Speak</button>
@@ -28,26 +28,16 @@ export class Serval extends React.Component<Props, {}> {
   }
 
   componentDidMount() {
-
-    const btn = ReactDOM.findDOMNode(this.refs.btn) as HTMLInputElement;
-
-    speech.addEventListener('result', e => {
-      console.log((e as SpeechRecognitionEvent).results)
-      const text = (e as SpeechRecognitionEvent).results[(e as SpeechRecognitionEvent).results.length-1][0].transcript
-      this.props.actions.listen(text);
-    }, false);
-
     speech.start();
+    speech.onresult = event => {
+      const e = event as SpeechRecognitionEvent;
+      const audio_sugoi = ReactDOM.findDOMNode(this.refs.sugoi) as HTMLAudioElement;
+      for( let i = e.resultIndex; i < e.results.length; ++i ){
+        console.log(e.results[i][0].transcript)
+        this.props.actions.listen(e.results[i][0].transcript);
+      }
+    }
 
-    btn.addEventListener('click', () => {
-      if( this.props.state.phase=="waiting" ){
-        speech.start();
-      }
-      if( this.props.state.phase=="listening" ){
-        speech.stop();
-      }
-      this.props.actions.click()
-    }, false);
 
     const speakbtn = ReactDOM.findDOMNode(this.refs.speakbtn) as HTMLInputElement;
     speakbtn.addEventListener('click', () => {
@@ -70,4 +60,5 @@ export class Serval extends React.Component<Props, {}> {
       setTimeout( () => { audio_sugoi.play();}, 200);
       }
   }
+
 }
