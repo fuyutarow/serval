@@ -23,5 +23,8 @@ typings install
 `npm run build`
 
 ### run
-`python3 -m http.server 8000`
+```python
+python3 -m http.server 8000`
+```
+<br>
 access localhost:8000/dist

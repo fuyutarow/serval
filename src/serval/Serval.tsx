@@ -12,9 +12,8 @@ interface Props {
 }
 
 export class Serval extends React.Component<Props, {}> {
-
-
   render() {
+
     return (
       <div>
         <button ref="btn">{ this.props.state.phase }</button>
@@ -23,8 +22,7 @@ export class Serval extends React.Component<Props, {}> {
           <button ref="speakbtn">Speak</button>
           <input type="text" ref="text"/>
         </p>
-
-        <audio ref="sugoi" src="./audio/nc154074.wav" type="audio/wav" />
+        <audio ref="sugoi" src="audio/nc154074.wav" type="audio/wav" />
       </div>
     );
   }
@@ -38,6 +36,7 @@ export class Serval extends React.Component<Props, {}> {
       const text = (e as SpeechRecognitionEvent).results[(e as SpeechRecognitionEvent).results.length-1][0].transcript
       this.props.actions.listen(text);
     }, false);
+
     speech.start();
 
     btn.addEventListener('click', () => {
@@ -53,23 +52,22 @@ export class Serval extends React.Component<Props, {}> {
     const speakbtn = ReactDOM.findDOMNode(this.refs.speakbtn) as HTMLInputElement;
     speakbtn.addEventListener('click', () => {
       const synthes = new SpeechSynthesisUtterance();
-      //synthes.voiceURI = 1;            // 出力する音声の種類
-      synthes.volume = 1;              // 出力する音声のボリューム
-      synthes.rate = 1;                // 出力する音声の速さ
-      synthes.pitch = 2;               // 出力する音声のピッチ(高さ)
-      synthes.text = (ReactDOM.findDOMNode(this.refs.text) as HTMLInputElement).value;     // 出力する文章
-      synthes.lang = 'ja-JP';          // 出力する音声の言語
+      //synthes.voiceURI = 1;
+      synthes.volume = 1;// 0 - 1
+      synthes.rate = 1;// 0 - 10
+      synthes.pitch = 2;// 0 - 2
+      synthes.text = (ReactDOM.findDOMNode(this.refs.text) as HTMLInputElement).value;
+      synthes.lang = 'ja-JP';
       speechSynthesis.speak( synthes );
     }, false);
   }
 
   componentDidUpdate() {
-    const sugoi = ReactDOM.findDOMNode(this.refs.sugoi) as HTMLAudioElement;
+    const audio_sugoi = ReactDOM.findDOMNode(this.refs.sugoi) as HTMLAudioElement;
+    const text  = this.props.state.text
     if( this.props.state.text=="すごい" ){
-      setTimeout( () => {
-        sugoi.play();
-        this.props.actions.listen("");
-        }, 200);
+      console.log()
+      setTimeout( () => { audio_sugoi.play();}, 200);
       }
   }
 }

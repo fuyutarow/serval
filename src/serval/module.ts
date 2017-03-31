@@ -17,7 +17,7 @@ export class ActionTypes {
 }
 
 const INITIAL_STATE =  {
-  phase: "waiting",
+  phase: "listening",
   text: "",
 };
 
